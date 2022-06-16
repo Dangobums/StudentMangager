@@ -241,5 +241,12 @@ public class Student {
         this.notes = notes;
     }
 
-
+    @Override
+    public String toString() {
+        return "Student{" +
+                "day='" + day + '\'' +
+                ", month='" + month + '\'' +
+                ", year='" + year + '\'' +
+                '}';
+    }
 }
