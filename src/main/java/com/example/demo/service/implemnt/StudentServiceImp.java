@@ -27,4 +27,13 @@ public class StudentServiceImp implements StudentService {
         List<Student> students =  studentRepository.searchStudentByStudentID(query);
         return students;
     }
+    @Override
+    public List<Student> searchStudentByStudentNameOrID(String id, String name) {
+       return studentRepository.searchStudentByStudentNameOrID(id, name);
+    }
+
+    @Override
+    public List<Student> searchStudentByStudentNameAndID(String id, String name) {
+        return studentRepository.searchStudentByStudentNameAndID(id, name);
+    }
 }

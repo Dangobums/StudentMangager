@@ -11,12 +11,14 @@ import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Objects;
 
 @RestController
 @CrossOrigin("http://localhost:3000")
@@ -25,7 +27,8 @@ public class StudentController {
     @Autowired
     private StudentRepository studentRepository;
 
-    private StudentService studentService;
+    private StudentService
+            studentService;
 
     public StudentController(StudentService studentService) {
         this.studentService = studentService;
@@ -52,6 +55,17 @@ public class StudentController {
     @GetMapping("/searchid")
     public ResponseEntity<List<Student>> searchStudentByStudentID(@RequestParam("query") String query) {
         return ResponseEntity.ok(studentService.searchStudentByStudentID(query));
+    }
+    @GetMapping("/search")
+    public ResponseEntity<List<Student>> searchStudentByStudentNameID(@RequestParam(name = "id", required = false) String id, @RequestParam(name ="name", required = false) String name) {
+        if (id == null) {
+            return ResponseEntity.ok(studentService.searchStudentByStudentName(name));
+        } else if (name == null) {
+            return ResponseEntity.ok(studentService.searchStudentByStudentName(id));
+        }
+        else {
+            return ResponseEntity.ok(studentService.searchStudentByStudentNameAndID(id, name));
+        }
     }
     @PostMapping("/import")
     public void mapReapExcelDatatoDB(@RequestParam("file") MultipartFile reapExcelDataFile) throws IOException {
